@@ -18,6 +18,8 @@ interface TodoContextType {
   setNewTask: (newTask: string) => void;
   setHighlightedTaskId: (id: number | null) => void;
   handleAddTask: () => Promise<void>;
+  errorMessage: string | null; 
+  setErrorMessage: (message: string | null) => void; 
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
@@ -29,18 +31,25 @@ interface TodoProviderProps {
 const BASE_URL = 'https://jsonplaceholder.typicode.com/todos';
 
 const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
-  const { tasks: fetchedTasks, loading, error, setTasks: setFetchedTasks } = useFetch(BASE_URL); // Use useFetch
+  const { tasks: fetchedTasks, loading, error, setTasks: setFetchedTasks } = useFetch(BASE_URL);
 
-  const [tasks, setTasks] = useState<Task[]>(fetchedTasks); // Initialize tasks with fetchedTasks
+  const [tasks, setTasks] = useState<Task[]>(fetchedTasks);
   const [newTask, setNewTask] = useState('');
   const [highlightedTaskId, setHighlightedTaskId] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
 
-  // Update local tasks when fetchedTasks changes
   useEffect(() => {
     setTasks(fetchedTasks);
   }, [fetchedTasks]);
 
   const handleAddTask = async () => {
+    if (newTask.trim() === '') {
+      setErrorMessage('Input Task and then Add'); 
+      return; 
+    }
+
+    setErrorMessage(null); 
+
     try {
       const response = await fetch(BASE_URL, {
         method: 'POST',
@@ -55,8 +64,8 @@ const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
       const data: any = await response.json();
       const newTaskWithId = { ...data, id: uuidv4() };
 
-      setTasks([newTaskWithId, ...tasks]); // Update local tasks
-      setFetchedTasks([newTaskWithId, ...fetchedTasks]); // Update fetched tasks
+      setTasks([newTaskWithId, ...tasks]);
+      setFetchedTasks([newTaskWithId, ...fetchedTasks]);
       setHighlightedTaskId(newTaskWithId.id);
 /* if you want to highlight the task for 2 seconds or specific seconds
       setTimeout(() => {
@@ -79,6 +88,8 @@ const TodoProvider: React.FC<TodoProviderProps> = ({ children }) => {
     setNewTask,
     setHighlightedTaskId,
     handleAddTask,
+    errorMessage, 
+    setErrorMessage, 
   };
 
   return (

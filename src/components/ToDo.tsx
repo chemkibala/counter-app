@@ -2,7 +2,7 @@ import { useTodo } from '../contexts/TodoContext';
 import AddTask from './AddTask';
 
 const ToDo = () => {
-  const { tasks, loading, error, highlightedTaskId } = useTodo();
+  const { tasks, loading, error, highlightedTaskId, errorMessage } = useTodo(); 
 
   if (error) {
     return <div>Something Went Wrong! Please Try Again</div>;
@@ -16,6 +16,7 @@ const ToDo = () => {
       {!loading && (
         <div>
           <AddTask />
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           <ul className="text-lg text-gray-700">
             {tasks.map((task) => (
               <li
