@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import CounterDisplay from './components/CounterDisplay';
 import Buttons from './components/Buttons';
@@ -9,16 +8,29 @@ const App: React.FC = () => {
   const [backgroundColor, setBackgroundColor] = useState('white');
   const [disableDecrement, setDisableDecrement] = useState(false); // New state for disabling
 
-  useEffect(() => {
-    if (count >= 15) {
-      setBackgroundColor('red');
-    } else if (count >= 10) {
-      setBackgroundColor('orange');
-    } else if (count >= 5) {
-      setBackgroundColor('yellow');
-    } else {
-      setBackgroundColor('white');
+  const getBackgroundColor = (count: number): string => {
+    enum BackgroundColor {
+      Red = 'red',
+      Orange = 'orange',
+      Yellow = 'yellow',
+      White = 'white',
     }
+
+    switch (true) {
+      case count >= 15:
+      return BackgroundColor.Red;
+      case count >= 10:
+      return BackgroundColor.Orange;
+      case count >= 5:
+      return BackgroundColor.Yellow;
+      default:
+      return BackgroundColor.White;
+    }
+  };
+
+  useEffect(() => {
+    const newBackgroundColor = getBackgroundColor(count);
+    setBackgroundColor(newBackgroundColor);
   }, [count]);
 
   const handleIncrement = () => {

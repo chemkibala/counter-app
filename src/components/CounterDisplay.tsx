@@ -1,4 +1,3 @@
-// CounterDisplay.tsx
 import React from 'react';
 
 interface CounterDisplayProps {
