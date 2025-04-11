@@ -8,9 +8,9 @@ interface CounterDisplayProps {
 
 const CounterDisplay: React.FC<CounterDisplayProps> = ({ count, errorMessage, backgroundColor }) => {
   return (
-    <div style={{ backgroundColor: backgroundColor, padding: '10px', border: '1px solid #ccc' }}>
-      <h2>Count: {count}</h2>
-      {errorMessage && <p style={{ color: 'red' }}>Error: {errorMessage}</p>}
+    <div className={`p-4 border border-gray-300 ${backgroundColor}`}>
+      <h2 className="text-2xl font-bold">Count: {count}</h2>
+      {errorMessage && <p className="text-red-500 mt-2">Error: {errorMessage}</p>}
     </div>
   );
 };
