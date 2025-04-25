@@ -3,7 +3,7 @@ import React from 'react';
 interface CounterDisplayProps {
   count: number;
   errorMessage: string | null;
-  backgroundColor: string; // Add background color prop
+  backgroundColor: string;
 }
 
 const CounterDisplay: React.FC<CounterDisplayProps> = ({ count, errorMessage, backgroundColor }) => {

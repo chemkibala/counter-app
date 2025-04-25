@@ -4,32 +4,27 @@ import CounterDisplay from './components/CounterDisplay';
 import Buttons from './components/Buttons';
 import ToDo from './components/ToDo';
 import Home from './components/Home';
-import './index.css';
+import './styles/colors.css';
 import NavBar from './components/NavBar';
 import TodoProvider from './contexts/TodoContext';
+import { BACKGROUND_COLORS } from './utils/constants';
 
 const App: React.FC = () => {
   const [count, setCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [backgroundColor, setBackgroundColor] = useState('bg-white');
- 
+  const [backgroundColor, setBackgroundColor] = useState(BACKGROUND_COLORS.DEFAULT);
+
   const getBackgroundColor = (count: number): string => {
-    enum BackgroundColor {
-      Red = 'bg-red-500',
-      Orange = 'bg-orange-500',
-      Yellow = 'bg-yellow-500',
-      White = 'bg-white',
-    }
   
     switch (true) {
       case count >= 15:
-        return BackgroundColor.Red;
+        return BACKGROUND_COLORS.RED;
       case count >= 10:
-        return BackgroundColor.Orange;
+        return BACKGROUND_COLORS.ORANGE;
       case count >= 5:
-        return BackgroundColor.Yellow;
+        return BACKGROUND_COLORS.YELLOW;
       default:
-        return BackgroundColor.White;
+        return BACKGROUND_COLORS.DEFAULT;
     }
   };
 
@@ -55,7 +50,7 @@ const App: React.FC = () => {
   const handleReset = () => {
     setCount(0);
     setErrorMessage(null);
-    setBackgroundColor('bg-white');
+    setBackgroundColor(BACKGROUND_COLORS.DEFAULT);
   };
 
   return (
