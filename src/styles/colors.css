@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-count-default {
+  background-color: white;
+}
+
+.bg-count-yellow {
+  background-color: #fef08a; 
+}
+
+.bg-count-orange {
+  background-color: #fdba74; 
+}
+
+.bg-count-red {
+  background-color: #f87171; 
+}

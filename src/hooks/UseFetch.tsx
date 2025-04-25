@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 
 export interface Task {
@@ -9,7 +8,7 @@ export interface Task {
 const useFetch = (url: string) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,8 +21,12 @@ const useFetch = (url: string) => {
         const data = await response.json();
         setTasks(data);
         setLoading(false);
-      } catch (e: any) {
-        setError(e);
+      } catch (e: unknown) {
+          if (e instanceof Error) {
+            setError(e);
+        } else {
+            setError(new Error('An unknown error occurred'));
+        }
         setLoading(false);
       }
     };
